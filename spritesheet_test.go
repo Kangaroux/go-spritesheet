@@ -7,7 +7,43 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_ReadSpriteSheet(t *testing.T) {
+func Test_ReadSpriteSheet_Error(t *testing.T) {
+	tests := []struct {
+		in string
+	}{
+		// EOF
+		{
+			in: ``,
+		},
+		// Cannot unmarshal string to struct
+		{
+			in: `foo`,
+		},
+		// Unknown field foo
+		{
+			in: `foo: bar`,
+		},
+		// Rows < 1
+		{
+			in: `rows: 0`,
+		},
+		// Cols < 1
+		{
+			in: `cols: 0`,
+		},
+		// Size < 1
+		{
+			in: `size: 0`,
+		},
+	}
+
+	for _, test := range tests {
+		_, err := ss.ReadSpriteSheet([]byte(test.in))
+		require.Error(t, err)
+	}
+}
+
+func Test_ReadSpriteSheet_OK(t *testing.T) {
 	tests := []struct {
 		in       string
 		expected *ss.SpriteSheet

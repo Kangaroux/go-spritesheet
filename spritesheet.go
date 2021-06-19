@@ -1,6 +1,8 @@
 package spritesheet
 
 import (
+	"bytes"
+	"errors"
 	"io/ioutil"
 	"os"
 
@@ -36,9 +38,19 @@ func OpenAndReadSpriteSheet(path string) (*SpriteSheet, error) {
 
 func ReadSpriteSheet(data []byte) (*SpriteSheet, error) {
 	sheet := &SpriteSheet{}
+	decoder := yaml.NewDecoder(bytes.NewReader(data))
+	decoder.KnownFields(true)
 
-	if err := yaml.Unmarshal(data, sheet); err != nil {
+	if err := decoder.Decode(sheet); err != nil {
 		return nil, err
+	}
+
+	if sheet.Rows < 1 {
+		return nil, errors.New("rows must be at least 1")
+	} else if sheet.Cols < 1 {
+		return nil, errors.New("cols must be at least 1")
+	} else if sheet.Size < 1 {
+		return nil, errors.New("size must be at least 1")
 	}
 
 	return sheet, nil
