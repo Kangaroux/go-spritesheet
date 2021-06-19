@@ -110,6 +110,112 @@ sprites: [a, b, c, d]`,
 		sheet, err := ss.Read(strings.NewReader(test.in))
 
 		require.NoError(t, err)
-		require.Equal(t, sheet, test.expected)
+		require.Equal(t, test.expected, sheet)
+	}
+}
+
+func Test_Sprites(t *testing.T) {
+	tests := []struct {
+		sheet    *ss.SpriteSheet
+		expected []ss.Sprite
+	}{
+		// Empty
+		{
+			sheet: &ss.SpriteSheet{
+				Rows:  1,
+				Cols:  1,
+				Names: []string{},
+			},
+			expected: []ss.Sprite{},
+		},
+		// 1x1 sheet, one sprite
+		{
+			sheet: &ss.SpriteSheet{
+				Rows:  1,
+				Cols:  1,
+				Names: []string{"foo"},
+			},
+			expected: []ss.Sprite{
+				{
+					Name: "foo",
+					Row:  0,
+					Col:  0,
+				},
+			},
+		},
+		// 2x2 sheet, one sprite
+		{
+			sheet: &ss.SpriteSheet{
+				Rows:  2,
+				Cols:  2,
+				Names: []string{"foo"},
+			},
+			expected: []ss.Sprite{
+				{
+					Name: "foo",
+					Row:  0,
+					Col:  0,
+				},
+			},
+		},
+		// 2x2 sheet, four sprites
+		{
+			sheet: &ss.SpriteSheet{
+				Rows:  2,
+				Cols:  2,
+				Names: []string{"a", "b", "c", "d"},
+			},
+			expected: []ss.Sprite{
+				{
+					Name: "a",
+					Row:  0,
+					Col:  0,
+				},
+				{
+					Name: "b",
+					Row:  0,
+					Col:  1,
+				},
+				{
+					Name: "c",
+					Row:  1,
+					Col:  0,
+				},
+				{
+					Name: "d",
+					Row:  1,
+					Col:  1,
+				},
+			},
+		},
+		// 1x3 sheet, three sprites
+		{
+			sheet: &ss.SpriteSheet{
+				Rows:  1,
+				Cols:  3,
+				Names: []string{"a", "b", "c"},
+			},
+			expected: []ss.Sprite{
+				{
+					Name: "a",
+					Row:  0,
+					Col:  0,
+				},
+				{
+					Name: "b",
+					Row:  0,
+					Col:  1,
+				},
+				{
+					Name: "c",
+					Row:  0,
+					Col:  2,
+				},
+			},
+		},
+	}
+
+	for _, test := range tests {
+		require.Equal(t, test.expected, test.sheet.Sprites())
 	}
 }
