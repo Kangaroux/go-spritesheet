@@ -26,11 +26,11 @@ type SpriteSheet struct {
 	Names      []string `yaml:"sprites"`
 }
 
-func (ss *SpriteSheet) Sprites() []Sprite {
-	sprites := []Sprite{}
+func (ss *SpriteSheet) Sprites() []*Sprite {
+	sprites := []*Sprite{}
 
 	for i, name := range ss.Names {
-		sprites = append(sprites, Sprite{
+		sprites = append(sprites, &Sprite{
 			Name:  name,
 			Row:   int(math.Floor(float64(i) / float64(ss.Cols))),
 			Col:   i % ss.Cols,

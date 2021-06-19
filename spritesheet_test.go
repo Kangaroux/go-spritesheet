@@ -117,7 +117,7 @@ sprites: [a, b, c, d]`,
 func Test_Sprites(t *testing.T) {
 	tests := []struct {
 		sheet    *ss.SpriteSheet
-		expected []ss.Sprite
+		expected []*ss.Sprite
 	}{
 		// Empty
 		{
@@ -126,7 +126,7 @@ func Test_Sprites(t *testing.T) {
 				Cols:  1,
 				Names: []string{},
 			},
-			expected: []ss.Sprite{},
+			expected: []*ss.Sprite{},
 		},
 		// 1x1 sheet, one sprite
 		{
@@ -135,7 +135,7 @@ func Test_Sprites(t *testing.T) {
 				Cols:  1,
 				Names: []string{"foo"},
 			},
-			expected: []ss.Sprite{
+			expected: []*ss.Sprite{
 				{
 					Name: "foo",
 					Row:  0,
@@ -150,7 +150,7 @@ func Test_Sprites(t *testing.T) {
 				Cols:  2,
 				Names: []string{"foo"},
 			},
-			expected: []ss.Sprite{
+			expected: []*ss.Sprite{
 				{
 					Name: "foo",
 					Row:  0,
@@ -165,7 +165,7 @@ func Test_Sprites(t *testing.T) {
 				Cols:  2,
 				Names: []string{"a", "b", "c", "d"},
 			},
-			expected: []ss.Sprite{
+			expected: []*ss.Sprite{
 				{
 					Name: "a",
 					Row:  0,
@@ -195,7 +195,7 @@ func Test_Sprites(t *testing.T) {
 				Cols:  3,
 				Names: []string{"a", "b", "c"},
 			},
-			expected: []ss.Sprite{
+			expected: []*ss.Sprite{
 				{
 					Name: "a",
 					Row:  0,
