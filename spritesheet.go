@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"image"
 	"io"
 	"io/ioutil"
 	"math"
@@ -17,6 +18,12 @@ type Sprite struct {
 	Row   int
 	Col   int
 	Sheet *SpriteSheet
+}
+
+func (s *Sprite) Rect() image.Rectangle {
+	p0 := image.Pt(s.Col*s.Sheet.Size, s.Row*s.Sheet.Size)
+	p1 := image.Pt(p0.X+s.Sheet.Size, p0.Y+s.Sheet.Size)
+	return image.Rectangle{Min: p0, Max: p1}
 }
 
 type SpriteSheet struct {

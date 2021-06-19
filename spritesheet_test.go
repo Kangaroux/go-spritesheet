@@ -1,6 +1,7 @@
 package spritesheet_test
 
 import (
+	"image"
 	"strings"
 	"testing"
 
@@ -114,7 +115,7 @@ sprites: [a, b, c, d]`,
 	}
 }
 
-func Test_Sprites(t *testing.T) {
+func Test_SpriteSheet_Sprites(t *testing.T) {
 	tests := []struct {
 		sheet    *ss.SpriteSheet
 		expected []*ss.Sprite
@@ -221,5 +222,53 @@ func Test_Sprites(t *testing.T) {
 		}
 
 		require.Equal(t, test.expected, test.sheet.Sprites())
+	}
+}
+
+func Test_Sprite_Rect(t *testing.T) {
+	tests := []struct {
+		size     int
+		sprite   *ss.Sprite
+		expected image.Rectangle
+	}{
+		{
+			size: 2,
+			sprite: &ss.Sprite{
+				Row: 0,
+				Col: 0,
+			},
+			expected: image.Rect(0, 0, 2, 2),
+		},
+		{
+			size: 2,
+			sprite: &ss.Sprite{
+				Row: 0,
+				Col: 1,
+			},
+			expected: image.Rect(2, 0, 4, 2),
+		},
+		{
+			size: 2,
+			sprite: &ss.Sprite{
+				Row: 1,
+				Col: 0,
+			},
+			expected: image.Rect(0, 2, 2, 4),
+		},
+		{
+			size: 2,
+			sprite: &ss.Sprite{
+				Row: 1,
+				Col: 1,
+			},
+			expected: image.Rect(2, 2, 4, 4),
+		},
+	}
+
+	for _, test := range tests {
+		test.sprite.Sheet = &ss.SpriteSheet{
+			Size: test.size,
+		}
+		require.Equal(t, test.expected, test.sprite.Rect())
 	}
 }
