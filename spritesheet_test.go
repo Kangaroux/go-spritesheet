@@ -216,6 +216,10 @@ func Test_Sprites(t *testing.T) {
 	}
 
 	for _, test := range tests {
+		for i, _ := range test.expected {
+			test.expected[i].Sheet = test.sheet
+		}
+
 		require.Equal(t, test.expected, test.sheet.Sprites())
 	}
 }

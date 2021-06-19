@@ -13,9 +13,10 @@ import (
 )
 
 type Sprite struct {
-	Name string
-	Row  int
-	Col  int
+	Name  string
+	Row   int
+	Col   int
+	Sheet *SpriteSheet
 }
 
 type SpriteSheet struct {
@@ -30,9 +31,10 @@ func (ss *SpriteSheet) Sprites() []Sprite {
 
 	for i, name := range ss.Names {
 		sprites = append(sprites, Sprite{
-			Name: name,
-			Row:  int(math.Floor(float64(i) / float64(ss.Cols))),
-			Col:  i % ss.Cols,
+			Name:  name,
+			Row:   int(math.Floor(float64(i) / float64(ss.Cols))),
+			Col:   i % ss.Cols,
+			Sheet: ss,
 		})
 	}
 
