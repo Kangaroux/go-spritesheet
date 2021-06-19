@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"math"
 	"os"
@@ -38,25 +39,26 @@ func (ss *SpriteSheet) Sprites() []Sprite {
 	return sprites
 }
 
-func OpenAndReadSpriteSheet(path string) (*SpriteSheet, error) {
+func OpenAndRead(path string) (*SpriteSheet, error) {
 	f, err := os.Open(path)
 
 	if err != nil {
 		return nil, err
 	}
 
+	defer f.Close()
 	data, err := ioutil.ReadAll(f)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return ReadSpriteSheet(data)
+	return Read(bytes.NewReader(data))
 }
 
-func ReadSpriteSheet(data []byte) (*SpriteSheet, error) {
+func Read(r io.Reader) (*SpriteSheet, error) {
 	sheet := &SpriteSheet{}
-	decoder := yaml.NewDecoder(bytes.NewReader(data))
+	decoder := yaml.NewDecoder(r)
 	decoder.KnownFields(true)
 
 	if err := decoder.Decode(sheet); err != nil {

@@ -1,13 +1,14 @@
 package spritesheet_test
 
 import (
+	"strings"
 	"testing"
 
 	ss "github.com/Kangaroux/go-spritesheet"
 	"github.com/stretchr/testify/require"
 )
 
-func Test_ReadSpriteSheet_Error(t *testing.T) {
+func Test_Read_Error(t *testing.T) {
 	tests := []struct {
 		in string
 	}{
@@ -63,12 +64,12 @@ sprites: [a, b]`,
 	}
 
 	for _, test := range tests {
-		_, err := ss.ReadSpriteSheet([]byte(test.in))
+		_, err := ss.Read(strings.NewReader(test.in))
 		require.Error(t, err)
 	}
 }
 
-func Test_ReadSpriteSheet_OK(t *testing.T) {
+func Test_Read_OK(t *testing.T) {
 	tests := []struct {
 		in       string
 		expected *ss.SpriteSheet
@@ -106,7 +107,7 @@ sprites: [a, b, c, d]`,
 	}
 
 	for _, test := range tests {
-		sheet, err := ss.ReadSpriteSheet([]byte(test.in))
+		sheet, err := ss.Read(strings.NewReader(test.in))
 
 		require.NoError(t, err)
 		require.Equal(t, sheet, test.expected)
