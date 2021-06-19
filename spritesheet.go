@@ -3,21 +3,17 @@ package spritesheet
 import (
 	"bytes"
 	"errors"
+	"fmt"
 	"io/ioutil"
 	"os"
 
 	"gopkg.in/yaml.v3"
 )
 
-type Sprite struct {
-	Path string
-	Name string
-}
-
 type SpriteSheet struct {
 	Rows, Cols int
 	Size       int
-	Sprites    []Sprite
+	Names      []string `yaml:"sprites"`
 }
 
 func OpenAndReadSpriteSheet(path string) (*SpriteSheet, error) {
@@ -51,6 +47,14 @@ func ReadSpriteSheet(data []byte) (*SpriteSheet, error) {
 		return nil, errors.New("cols must be at least 1")
 	} else if sheet.Size < 1 {
 		return nil, errors.New("size must be at least 1")
+	} else if sheet.Names == nil {
+		return nil, errors.New("missing sprites field")
+	} else if len(sheet.Names) > sheet.Cols*sheet.Rows {
+		return nil, fmt.Errorf(
+			"sprites field has too many entries (%d entries, max is %d)",
+			len(sheet.Names),
+			sheet.Cols*sheet.Rows,
+		)
 	}
 
 	return sheet, nil

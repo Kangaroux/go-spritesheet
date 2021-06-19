@@ -35,6 +35,21 @@ func Test_ReadSpriteSheet_Error(t *testing.T) {
 		{
 			in: `size: 0`,
 		},
+		// Missing sprites field
+		{
+			in: `
+rows: 1
+cols: 1
+size: 1`,
+		},
+		// Sprites field has too many entries
+		{
+			in: `
+rows: 1
+cols: 1
+size: 1
+sprites: [a, b]`,
+		},
 	}
 
 	for _, test := range tests {
@@ -52,11 +67,26 @@ func Test_ReadSpriteSheet_OK(t *testing.T) {
 			in: `
 rows: 1
 cols: 2
-size: 3`,
+size: 3
+sprites: []`,
 			expected: &ss.SpriteSheet{
-				Rows: 1,
-				Cols: 2,
-				Size: 3,
+				Rows:  1,
+				Cols:  2,
+				Size:  3,
+				Names: []string{},
+			},
+		},
+		{
+			in: `
+rows: 2
+cols: 2
+size: 3
+sprites: [a, b, c, d]`,
+			expected: &ss.SpriteSheet{
+				Rows:  2,
+				Cols:  2,
+				Size:  3,
+				Names: []string{"a", "b", "c", "d"},
 			},
 		},
 	}
