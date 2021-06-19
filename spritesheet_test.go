@@ -214,6 +214,26 @@ func Test_SpriteSheet_Sprites(t *testing.T) {
 				},
 			},
 		},
+		// 1x3 sheet, three sprites, skip
+		{
+			sheet: &ss.SpriteSheet{
+				Rows:  1,
+				Cols:  3,
+				Names: []string{"a", "_", "c"},
+			},
+			expected: []*ss.Sprite{
+				{
+					Name: "a",
+					Row:  0,
+					Col:  0,
+				},
+				{
+					Name: "c",
+					Row:  0,
+					Col:  2,
+				},
+			},
+		},
 	}
 
 	for _, test := range tests {

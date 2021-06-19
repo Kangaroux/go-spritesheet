@@ -37,6 +37,10 @@ func (ss *SpriteSheet) Sprites() []*Sprite {
 	sprites := []*Sprite{}
 
 	for i, name := range ss.Names {
+		if name == "_" {
+			continue
+		}
+
 		sprites = append(sprites, &Sprite{
 			Name:  name,
 			Row:   int(math.Floor(float64(i) / float64(ss.Cols))),
