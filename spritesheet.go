@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"math"
 	"os"
+	"strings"
 
 	"gopkg.in/yaml.v3"
 )
@@ -94,6 +95,31 @@ func Read(r io.Reader) (*SpriteSheet, error) {
 			len(sheet.Names),
 			sheet.Cols*sheet.Rows,
 		)
+	}
+
+	// Check that all of the sprite names are unique
+	if len(sheet.Names) > 0 {
+		dupes := []string{}
+		names := make(map[string]struct{})
+
+		for _, name := range sheet.Names {
+			if name == "_" {
+				continue
+			}
+
+			if _, exists := names[name]; exists {
+				dupes = append(dupes, name)
+			} else {
+				names[name] = struct{}{}
+			}
+		}
+
+		if len(dupes) > 0 {
+			return nil, fmt.Errorf(
+				"sprite names must be unique (duplicated: %s)",
+				strings.Join(dupes, ", "),
+			)
+		}
 	}
 
 	return sheet, nil

@@ -62,6 +62,15 @@ size: 1
 image: foo
 sprites: [a, b]`,
 		},
+		// Sprites field has duplicates
+		{
+			in: `
+rows: 2
+cols: 2
+size: 1
+image: foo
+sprites: [a, b, c, b]`,
+		},
 	}
 
 	for _, test := range tests {
@@ -219,14 +228,9 @@ func Test_SpriteSheet_Sprites(t *testing.T) {
 			sheet: &ss.SpriteSheet{
 				Rows:  1,
 				Cols:  3,
-				Names: []string{"a", "_", "c"},
+				Names: []string{"_", "_", "c"},
 			},
 			expected: map[string]*ss.Sprite{
-				"a": {
-					Name: "a",
-					Row:  0,
-					Col:  0,
-				},
 				"c": {
 					Name: "c",
 					Row:  0,
