@@ -33,23 +33,23 @@ type SpriteSheet struct {
 	Names      []string `yaml:"sprites"`
 }
 
-func (ss *SpriteSheet) Sprites() []*Sprite {
-	sprites := []*Sprite{}
+func (ss *SpriteSheet) Sprites() map[string]*Sprite {
+	m := make(map[string]*Sprite)
 
 	for i, name := range ss.Names {
 		if name == "_" {
 			continue
 		}
 
-		sprites = append(sprites, &Sprite{
+		m[name] = &Sprite{
 			Name:  name,
 			Row:   int(math.Floor(float64(i) / float64(ss.Cols))),
 			Col:   i % ss.Cols,
 			Sheet: ss,
-		})
+		}
 	}
 
-	return sprites
+	return m
 }
 
 func OpenAndRead(path string) (*SpriteSheet, error) {

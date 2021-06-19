@@ -118,7 +118,7 @@ sprites: [a, b, c, d]`,
 func Test_SpriteSheet_Sprites(t *testing.T) {
 	tests := []struct {
 		sheet    *ss.SpriteSheet
-		expected []*ss.Sprite
+		expected map[string]*ss.Sprite
 	}{
 		// Empty
 		{
@@ -127,7 +127,7 @@ func Test_SpriteSheet_Sprites(t *testing.T) {
 				Cols:  1,
 				Names: []string{},
 			},
-			expected: []*ss.Sprite{},
+			expected: map[string]*ss.Sprite{},
 		},
 		// 1x1 sheet, one sprite
 		{
@@ -136,8 +136,8 @@ func Test_SpriteSheet_Sprites(t *testing.T) {
 				Cols:  1,
 				Names: []string{"foo"},
 			},
-			expected: []*ss.Sprite{
-				{
+			expected: map[string]*ss.Sprite{
+				"foo": {
 					Name: "foo",
 					Row:  0,
 					Col:  0,
@@ -151,8 +151,8 @@ func Test_SpriteSheet_Sprites(t *testing.T) {
 				Cols:  2,
 				Names: []string{"foo"},
 			},
-			expected: []*ss.Sprite{
-				{
+			expected: map[string]*ss.Sprite{
+				"foo": {
 					Name: "foo",
 					Row:  0,
 					Col:  0,
@@ -166,23 +166,23 @@ func Test_SpriteSheet_Sprites(t *testing.T) {
 				Cols:  2,
 				Names: []string{"a", "b", "c", "d"},
 			},
-			expected: []*ss.Sprite{
-				{
+			expected: map[string]*ss.Sprite{
+				"a": {
 					Name: "a",
 					Row:  0,
 					Col:  0,
 				},
-				{
+				"b": {
 					Name: "b",
 					Row:  0,
 					Col:  1,
 				},
-				{
+				"c": {
 					Name: "c",
 					Row:  1,
 					Col:  0,
 				},
-				{
+				"d": {
 					Name: "d",
 					Row:  1,
 					Col:  1,
@@ -196,18 +196,18 @@ func Test_SpriteSheet_Sprites(t *testing.T) {
 				Cols:  3,
 				Names: []string{"a", "b", "c"},
 			},
-			expected: []*ss.Sprite{
-				{
+			expected: map[string]*ss.Sprite{
+				"a": {
 					Name: "a",
 					Row:  0,
 					Col:  0,
 				},
-				{
+				"b": {
 					Name: "b",
 					Row:  0,
 					Col:  1,
 				},
-				{
+				"c": {
 					Name: "c",
 					Row:  0,
 					Col:  2,
@@ -221,13 +221,13 @@ func Test_SpriteSheet_Sprites(t *testing.T) {
 				Cols:  3,
 				Names: []string{"a", "_", "c"},
 			},
-			expected: []*ss.Sprite{
-				{
+			expected: map[string]*ss.Sprite{
+				"a": {
 					Name: "a",
 					Row:  0,
 					Col:  0,
 				},
-				{
+				"c": {
 					Name: "c",
 					Row:  0,
 					Col:  2,
