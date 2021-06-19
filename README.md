@@ -1,5 +1,7 @@
 # go-spritesheet
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/kangaroux/go-spritesheet.svg)](https://pkg.go.dev/github.com/kangaroux/go-spritesheet)
+
 Use YAML to describe your sprite sheet and give your sprites names. `go-spritesheet` will take care of the math for each sprite location, as well as provide a map for easy sprite lookups.
 
 ## Using With Ebiten
