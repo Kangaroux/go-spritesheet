@@ -14,6 +14,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// Sprite represents a single sprite within a sprite sheet.
 type Sprite struct {
 	Name  string
 	Row   int
@@ -21,12 +22,14 @@ type Sprite struct {
 	Sheet *SpriteSheet
 }
 
+// Rect returns the area where this sprite is in the sprite sheet.
 func (s *Sprite) Rect() image.Rectangle {
 	p0 := image.Pt(s.Col*s.Sheet.Size, s.Row*s.Sheet.Size)
 	p1 := image.Pt(p0.X+s.Sheet.Size, p0.Y+s.Sheet.Size)
 	return image.Rectangle{Min: p0, Max: p1}
 }
 
+// SpriteSheet represents a sprite sheet config file loaded from YAML.
 type SpriteSheet struct {
 	Rows, Cols int
 	Size       int
@@ -34,6 +37,8 @@ type SpriteSheet struct {
 	Names      []string `yaml:"sprites"`
 }
 
+// Sprites returns a map of all the sprites declared in the sprite sheet.
+// The map keys are the sprite names.
 func (ss *SpriteSheet) Sprites() map[string]*Sprite {
 	m := make(map[string]*Sprite)
 
@@ -53,6 +58,7 @@ func (ss *SpriteSheet) Sprites() map[string]*Sprite {
 	return m
 }
 
+// OpenAndRead reads and returns the sprite sheet config file at the given path.
 func OpenAndRead(path string) (*SpriteSheet, error) {
 	f, err := os.Open(path)
 
@@ -70,6 +76,7 @@ func OpenAndRead(path string) (*SpriteSheet, error) {
 	return Read(bytes.NewReader(data))
 }
 
+// Read reads a sprite sheet config file, parses it, and returns it.
 func Read(r io.Reader) (*SpriteSheet, error) {
 	sheet := &SpriteSheet{}
 	decoder := yaml.NewDecoder(r)
