@@ -20,6 +20,7 @@ type Sprite struct {
 type SpriteSheet struct {
 	Rows, Cols int
 	Size       int
+	Image      string
 	Names      []string `yaml:"sprites"`
 }
 
@@ -68,6 +69,8 @@ func ReadSpriteSheet(data []byte) (*SpriteSheet, error) {
 		return nil, errors.New("cols must be at least 1")
 	} else if sheet.Size < 1 {
 		return nil, errors.New("size must be at least 1")
+	} else if sheet.Image == "" {
+		return nil, errors.New("missing image field")
 	} else if sheet.Names == nil {
 		return nil, errors.New("missing sprites field")
 	} else if len(sheet.Names) > sheet.Cols*sheet.Rows {

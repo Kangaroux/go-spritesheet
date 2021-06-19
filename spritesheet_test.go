@@ -40,7 +40,16 @@ func Test_ReadSpriteSheet_Error(t *testing.T) {
 			in: `
 rows: 1
 cols: 1
-size: 1`,
+size: 1
+image: foo`,
+		},
+		// Missing image field
+		{
+			in: `
+rows: 1
+cols: 1
+size: 1
+sprites: []`,
 		},
 		// Sprites field has too many entries
 		{
@@ -48,6 +57,7 @@ size: 1`,
 rows: 1
 cols: 1
 size: 1
+image: foo
 sprites: [a, b]`,
 		},
 	}
@@ -68,11 +78,13 @@ func Test_ReadSpriteSheet_OK(t *testing.T) {
 rows: 1
 cols: 2
 size: 3
+image: foo.png
 sprites: []`,
 			expected: &ss.SpriteSheet{
 				Rows:  1,
 				Cols:  2,
 				Size:  3,
+				Image: "foo.png",
 				Names: []string{},
 			},
 		},
@@ -81,11 +93,13 @@ sprites: []`,
 rows: 2
 cols: 2
 size: 3
+image: foo.png
 sprites: [a, b, c, d]`,
 			expected: &ss.SpriteSheet{
 				Rows:  2,
 				Cols:  2,
 				Size:  3,
+				Image: "foo.png",
 				Names: []string{"a", "b", "c", "d"},
 			},
 		},
