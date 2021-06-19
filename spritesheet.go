@@ -5,15 +5,36 @@ import (
 	"errors"
 	"fmt"
 	"io/ioutil"
+	"math"
 	"os"
 
 	"gopkg.in/yaml.v3"
 )
 
+type Sprite struct {
+	Name string
+	Row  int
+	Col  int
+}
+
 type SpriteSheet struct {
 	Rows, Cols int
 	Size       int
 	Names      []string `yaml:"sprites"`
+}
+
+func (ss *SpriteSheet) Sprites() []Sprite {
+	sprites := []Sprite{}
+
+	for i, name := range ss.Names {
+		sprites = append(sprites, Sprite{
+			Name: name,
+			Row:  int(math.Floor(float64(i) / float64(ss.Cols))),
+			Col:  i % ss.Cols,
+		})
+	}
+
+	return sprites
 }
 
 func OpenAndReadSpriteSheet(path string) (*SpriteSheet, error) {
