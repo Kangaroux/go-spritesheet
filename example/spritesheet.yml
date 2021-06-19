@@ -1,0 +1,8 @@
+rows: 1
+cols: 5
+size: 32
+image: sheet.png
+
+sprites: [
+    fill, top, right, bottom, left
+  ]
